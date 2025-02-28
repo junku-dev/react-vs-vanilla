@@ -4,6 +4,7 @@ import axios from 'axios';
 export default function DataTable(){
     const url = "http://localhost:5000/genone";
     const [pokemons , setPokemons] = useState([]);
+    const [error, setError] = useState("");
 
     function fetchData(url){
         axios.get(url)
@@ -13,7 +14,10 @@ export default function DataTable(){
                 setPokemons(response.data);
             }
         })
-        .catch((err) => console.log("error: " + err))
+        .catch((err) => {
+            console.log("error: " + err)
+            setError(err.message);
+        })
     }
 
     function handleTypes(types){
@@ -41,21 +45,32 @@ export default function DataTable(){
                 </tbody>
             );
         }
-        return(
-            <tbody>
-                {
-                    pokemons.map((p) => (
-                        <tr key={p.id} >
-                            <td>{p.id}</td>
-                            <td>{p.name}</td>
-                            <td>{handleTypes(p.pokemonType)}</td>
-                            <td>{p.height}</td>
-                            <td>{p.weight}</td>
-                        </tr>
-                    ))
-                }
-            </tbody>
-        );
+        else if (error){
+            return (
+                <tbody>
+                    <tr>
+                        <td>{error}</td>
+                    </tr>
+                </tbody>
+            );
+        }
+        else {
+            return(
+                <tbody>
+                    {
+                        pokemons.map((p) => (
+                            <tr key={p.id} >
+                                <td>{p.id}</td>
+                                <td>{p.name}</td>
+                                <td>{handleTypes(p.pokemonType)}</td>
+                                <td>{p.height}</td>
+                                <td>{p.weight}</td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            );
+        }
     }
 
     useEffect(() => {
