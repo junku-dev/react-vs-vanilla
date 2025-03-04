@@ -1,8 +1,5 @@
-.App {
+#root {
   text-align: center;
-}
-
-.App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -10,5 +7,54 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: whitesmoke;
+}
+
+.app{
+  max-width: 90%;
+}
+
+label{
+  padding-right: 1rem;
+  text-align: left;
+}
+
+input {
+  border-color: whitesmoke;
+  color: whitesmoke;
+  background-color: #282c34;
+  width: 100px;
+}
+
+table{
+  margin-top: 2rem;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tr{
+  text-align: left;
+}
+
+th{
+  background-color: #2b3957;
+}
+
+td,th{
+  border: 1px solid #282c34;
+  padding: 8px;
+}
+
+tr:nth-child(even){
+  background-color: #373c47;
+  border-color: #373c47;
+}
+
+tr:hover, th:hover {
+  background-color: #2b3957;
+  border-color: #2b3957;
+}
+
+.filter-input{
+  background-color: #282c34 !important;
 }

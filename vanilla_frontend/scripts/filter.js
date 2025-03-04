@@ -1,5 +1,5 @@
 const inputs = document.querySelectorAll("input.filter-input");
-const dt = document.getElementById("data-table");
+const dt = document.getElementById("data");
 
 function inputIsNum(value){
     if(Number.isInteger(value)){

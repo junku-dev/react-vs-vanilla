@@ -1,5 +1,5 @@
 (function(){
-    const dt = document.getElementById("data-table") || null;
+    const dt = document.getElementById("data") || null;
     const api_url = "http://localhost:5000/genone";
     
     function handleTypes(types){
@@ -19,23 +19,13 @@
     }
     
     function displayPokemonData(data){
-        let table_data = ``;
+        let table_data = '';
 
         let id = 0;
         let name = "";
         let type = "";
         let height = 0;
         let weight = 0;
-
-        table_data += `
-            <tr>
-                <th>pokemon id</th>
-                <th>name</th>
-                <th>type(s)</th>
-                <th>height</th>
-                <th>weight</th>
-            </tr>
-        `;
 
         for(let i = 0; i < data.length; i++){
             let pokemon = data[i];

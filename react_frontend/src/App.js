@@ -3,10 +3,10 @@ import DataTable from './components/DataTable';
 
 function App() {
   return (
-    <>
-      <h1>PokeDex</h1>
+    <div className='app'>
+      <h1>PokeDex React</h1>
       <DataTable />
-    </>
+    </div>
   );
 }
 
