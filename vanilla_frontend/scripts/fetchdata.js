@@ -12,7 +12,7 @@ export default function fetchData(){
         for(let i = 0; i < len; i++){
             typeStr += types[i]
             if(i < len - 1){
-                typeStr += ",";
+                typeStr += ", ";
             }
         }
         return typeStr;
@@ -63,7 +63,7 @@ export default function fetchData(){
                 dt.innerHTML = displayPokemonData(data); 
             }
             else{
-                throw await response.json();
+                throw await response.statusText;
             }
         })
         .catch((error) => {
