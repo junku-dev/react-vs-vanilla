@@ -1,4 +1,4 @@
-import { usePokemonData } from "../hooks/usePokemonData";
+import { usePokemonData } from "../hooks/usePokemonData.jsx";
 
 export default function DataTable(){
     const url = "http://localhost:5000/genone";
