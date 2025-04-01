@@ -58,18 +58,18 @@ export default function DataTable(){
         }
     }
 
-    const choices = ["id", "name", "types", "height", "weight"];
+    const choices = ["Poke ID:", "Pokemon:", "Types(s):", "Height:", "Weight:"];
     return (
         <>
             <div className="main-content">
                 <table>
                     <thead>
                         <tr>
-                            <th>Poke ID:</th>
-                            <th>Pokemon:</th>
-                            <th>Type(s):</th>
-                            <th>Height:</th>
-                            <th>Weight:</th>
+                            <th>{choices[0]}</th>
+                            <th>{choices[1]}</th>
+                            <th>{choices[2]}</th>
+                            <th>{choices[3]}</th>
+                            <th>{choices[4]}</th>
                         </tr>
                     </thead>
                     <tbody>
