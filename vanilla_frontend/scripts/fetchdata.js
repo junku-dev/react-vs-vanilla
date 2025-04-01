@@ -63,7 +63,7 @@ export default function fetchData(){
                 dt.innerHTML = displayPokemonData(data); 
             }
             else{
-                throw await response.statusText;
+                 console.error("Error:" + response.statusText);
             }
         })
         .catch((error) => {
@@ -71,10 +71,10 @@ export default function fetchData(){
         });
     }
 
-    if(dt){
+    if(dt !== null){
         getPokemon();
     }
     else {
-        dt.innerHtml = "<tr>something went wrong...</tr>"
+        console.error("could not access DOM...");
     }
 }
