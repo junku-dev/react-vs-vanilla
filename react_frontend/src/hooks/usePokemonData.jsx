@@ -5,7 +5,7 @@ export function usePokemonData(url){
     const [pokemon , setPokemon] = useState([]);
     const [allPokemon, setAllPokemon] = useState([]);
     const [error, setError] = useState("");
-
+    const [filter, setFilter] = useState(Array(6).fill({position: null, input:""}));
     const OK = 200;
     
     
@@ -32,31 +32,37 @@ export function usePokemonData(url){
 
     }, [url]);
 
-    function filterPokemon(position, input, pokemon){
-        const choices = ["id", "name", "pokemonType", "height", "weight"]
-        let filteredPokemon = [];
-        for(let i in pokemon){
-            let p = pokemon[i];
-            let val = String(p[choices[position]]);
-            if (val.includes(input)){
-                filteredPokemon.push(p);
-            }
+    useEffect(() => {
+        if(allPokemon.length > 0){
+            filterPokemon();
         }
+    }, [filter,allPokemon]);
+
+    function filterPokemon(){
+        const choices = ["id", "name", "pokemonType", "height", "weight"]
+        let filteredPokemon = [...allPokemon];
+
+        filter.forEach(filter => {
+            if(filter.input && filter.position !== null){
+                console.log(filter);
+                filteredPokemon = filteredPokemon.filter(p => {
+                    const val = String(p[choices[filter.position]]).toLowerCase();
+                    return val.includes(filter.input.toLowerCase());
+                });
+                console.log(filteredPokemon.length);
+            }
+        });
+        
         setPokemon(filteredPokemon.length > 0 ? filteredPokemon : allPokemon);
     }
 
     const handleInputs = (position, input) => {
-        if(pokemon){
-            //add more filters to an existing filter
-            filterPokemon(position, input, allPokemon);
-        }
-        else if(allPokemon){
-            //create new filter
-            filterPokemon(position, input, pokemon);
-        }
-        else {
-            console.error("data could not be found, or something else went wrong...");
-        }
+        setFilter(prev => {
+            const newFilters = [...prev];
+            newFilters[position] = { position, input };
+            return newFilters;
+        });
     };
+
     return { pokemon, error, handleInputs }
 }
