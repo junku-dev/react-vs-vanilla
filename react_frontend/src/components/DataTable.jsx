@@ -65,11 +65,9 @@ export default function DataTable(){
                 <table>
                     <thead>
                         <tr>
-                            <th>{choices[0]}</th>
-                            <th>{choices[1]}</th>
-                            <th>{choices[2]}</th>
-                            <th>{choices[3]}</th>
-                            <th>{choices[4]}</th>
+                            {choices.map((header, index) => (
+                                <th key={index}>{header}</th>
+                            ))}
                         </tr>
                     </thead>
                     <tbody>
