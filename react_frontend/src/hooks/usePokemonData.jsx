@@ -8,7 +8,6 @@ export function usePokemonData(url){
     const [filter, setFilter] = useState(Array(6).fill({position: null, input:""}));
     const OK = 200;
     
-    
     useEffect(() => {
         const fetchData = async () => {
             axios.get(url)
@@ -42,16 +41,16 @@ export function usePokemonData(url){
         const choices = ["id", "name", "pokemonType", "height", "weight"]
         let filteredPokemon = [...allPokemon];
 
-        filter.forEach(filter => {
-            if(filter.input && filter.position !== null){
+        filter.forEach(f => {
+            if(f.input && f.position !== null){
                 filteredPokemon = filteredPokemon.filter(p => {
                     let val;
-                    if(filter.position === 0 || filter.position === 3 || filter.position === 4){ //index 0 is id which is a number
-                        val = Number(p[choices[filter.position]]);
-                        return Number(filter.input) === val;
+                    if(f.position === 0 || f.position === 3 || filter.position === 4){ //index 0, 3, 4 are numbers.
+                        val = Number(p[choices[f.position]]);
+                        return Number(f.input) === val;
                     }
-                    val = String(p[choices[filter.position]]).toLowerCase();
-                    return val.includes(filter.input.toLowerCase());
+                    val = String(p[choices[f.position]]).toLowerCase();
+                    return val.includes(f.input.toLowerCase());
                 });
             }
         });

@@ -1,0 +1,90 @@
+## usePokemonData custom hook
+### what is a hook in react?
+- hooks allow the developer to "hook" into react features such as state and `lifecycle` methods.
+	- 3 rules for hooks:
+		- hooks can only be called inside react function components
+		- hooks can only be called at the top level of a component
+		- hooks CANNOT be conditional
+		- secret rule: hooks will not work in react class components
+	- custom hooks
+		- if there is `stateful` logic that needs to be reused in several components, then build a custom hook.
+	- hooks allow developers to forget about react class components (thank god i dont want to write classes with js...)
+	- usePokemonData is a state hook and effect hook
+		- best practices probably would suggest that this hook be broken into two smaller hooks 
+			- 1 state hook and 1 effect hook
+			- i didnt want to do that cause lazy
+### usePokemonData Hook
+- `const [pokemon , setPokemon] = useState([]);`
+	- state for filtered `pokemon`
+	- `const [allPokemon, setAllPokemon] = useState([]);`
+		- state for fetched `pokemon`
+	- `const [error, setError] = useState("");`
+		- state for `error` handling
+- `useEffect` to fetch data
+	- what is `useEffect`?
+		- the `useEffect` is a hook that allows developers to perform side effects inside of components
+			- fetching data, directly updating the `dom`, & timers
+		- `useEffect` accepts two arguments
+			- a function
+			- a dependency (optional)
+		- `useEffect` runs on every render
+			- when a change occurs, a render happens, this will trigger another effect.
+				- this can be bad so dependencies can control this
+	- declare `fetchData` which is an `async` arrow function
+		- use `axios.get` to send a get request to the endpoint
+			- `axios` is a library that simplifies the fetch api
+		- handle the response
+			- if `response.ok` then set the `allPokemon` state and set the `pokemon` state
+			- else set the `error` state
+		- call `fetchData`
+		- set `url` as the dependency for the `useEffect`
+- `usePokemon` data will return `{pokemon, error, handleInputs}` to be used in the `DataTable` component.
+### handleInputs function
+- handle inputs will take two arguments `position`, `input`
+- there is a filter state `filter` that will keep track of the user's filters
+- to set the filter, i set `prev` as a pointer function
+	- i will declare a list `newFilters` which will be a copy of `prev` which will keep track of all filters.
+	- i then build a `json` objects using the position and input and insert it into the `newFilters` list using the position
+	- i return `newFilters` to set in `setFilter`
+### filterPokemon function
+- the main idea here is that
+- `filterPokemon` will start out as a copy of all `pokemon`
+- for each filter stored in the filter state
+	- which is a list of `json` objects consisting of position and input
+- iterate through `filterPokemon` using the filter method
+- check if the id, weight or height is equal to the input value
+	- i just check by index because `id`, `weight` and `height` is always `index` `0, 3, 4`
+- else check the user input is a `substring` of its respective column value
+- if true is return then it gets added to the `filteredPokemon` list
+- finally i set the `pokemon` state
+	- if the user doesn't provide any filters or all of the  filters are removed then `allPokemon` is returned.
+
+### DataTable.js Component
+- import the `usePokemonData` custom hook
+- DataTable()
+	- declare the `url` variable
+	- declare `{ pokemon, error, handleInputs}` using `usePokemonData(url);`
+	- DisplayTableData()
+		- this function returns `jsx` that will map `pokemon` `json` to a table body
+		- `pokemon` and `error` will be used as properties for this function
+			- this will make sense later
+		- check if `pokemon` arr is not an array
+			- if connection is slow the `pokemon` arr may not be populated yet, so show a loading msg to the user
+		- else if error
+			- return an error msg
+		- else map the `pokemon` `json` to html
+			- what is `map`?
+				- map function is generally used to render items dynamically in react.
+					- calls a defined callback and returns an array that contains the result
+					- basically, iterates over the array and maps each iteration returns the JSX for the respective item
+				- key keeps track of the index you want to map
+					- since p.id is unique use that as the key
+			- handleTypes() works the same as it did in the vanilla example
+	- return
+		- table html
+		- tbody
+			- here the `choices` arr gets mapped to input tags inside of td tags
+			- with map if you only want the indexes you can pass `_` to the string value argument.
+			- recall `handleInputs(position, input)`
+				- every time the user types in the input field `handleInputs` will be called using the index of that input and the value of the input tag
+			- now `<DisplayTableData />` is used to render the `pokemon` data using `pokemon` and error as properties
