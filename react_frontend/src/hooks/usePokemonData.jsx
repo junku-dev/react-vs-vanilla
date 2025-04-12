@@ -44,15 +44,18 @@ export function usePokemonData(url){
 
         filter.forEach(filter => {
             if(filter.input && filter.position !== null){
-                console.log(filter);
                 filteredPokemon = filteredPokemon.filter(p => {
-                    const val = String(p[choices[filter.position]]).toLowerCase();
+                    let val;
+                    if(filter.position === 0 || filter.position === 3 || filter.position === 4){ //index 0 is id which is a number
+                        val = Number(p[choices[filter.position]]);
+                        return Number(filter.input) === val;
+                    }
+                    val = String(p[choices[filter.position]]).toLowerCase();
                     return val.includes(filter.input.toLowerCase());
                 });
-                console.log(filteredPokemon.length);
             }
         });
-        
+
         setPokemon(filteredPokemon.length > 0 ? filteredPokemon : allPokemon);
     }
 
